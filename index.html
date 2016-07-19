@@ -1,0 +1,104 @@
+<!-- check all the matth. the goblin should not appear off the screen.  stop the hero from going the screen -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Goblin Hunter</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+//create a canvas tag with javascript
+var canvas = document.createElement('canvas');
+// create a context for javasctipt to play inside of
+var context = canvas.getContext('2d');
+// give the canvas tag some substatnce
+canvas.width = 512;
+canvas.height = 480;
+// console.dir(canvas);
+// Put the canvas element in the DOM
+document.body.appendChild(canvas);
+
+var bgImage = new Image();
+bgImage.src = "background.png";
+
+// ourstuffgoeshere
+
+var hero = new Image();
+hero.src = "hero.png";
+var heroLocation = {
+	x: 100,
+	y: 100
+}
+
+var goblin = new Image();
+goblin.src = "monster.png";
+var goblinLocation = {
+	x: 150,
+	y: 100
+}
+// this array will hold the keycodes that are currently pressed down
+var keysDown = [];
+
+// make the hero move
+addEventListener('keydown', function(event){
+	keysDown[event.keyCode] = true;
+
+	
+});
+
+addEventListener('keyup', function(event){
+	delete keysDown[event.keyCode];
+});
+
+function update(){
+	// move our hero
+	if(39 in keysDown) {
+		//move him right
+		heroLocation.x += 10;
+	}
+	if(37 in keysDown) {
+		//move him left
+		heroLocation.x -= 10;
+	}
+	if(38 in keysDown) {
+		//move him left
+		heroLocation.y -= 10;
+	}
+	if(40 in keysDown) {
+		//move him left
+		heroLocation.y += 10;
+	}
+	// if the hero runs into the goblin do x
+	if((heroLocation.x <= (goblinLocation.x + 32)) 
+		&& (heroLocation.y <= (goblinLocation.y + 32))
+		&& (goblinLocation.x <= (heroLocation.x + 32))
+		&& (goblinLocation.y <= (heroLocation.y + 32))
+		){
+			reset();
+		}
+}
+// up is 38, right is 39, down is 40, down is 37
+// If the
+
+function reset(){
+	goblinLocation.x = Math.random() * 480;
+	goblinLocation.y = Math.random() * 480
+}
+
+function draw(){
+	update();
+	// this is where javascript draws our stuff
+	context.drawImage(bgImage,0,0);
+	context.drawImage(hero,heroLocation.x,heroLocation.y);
+	context.drawImage(goblin,goblinLocation.x,goblinLocation.y);
+	requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+</body>
+</html>
